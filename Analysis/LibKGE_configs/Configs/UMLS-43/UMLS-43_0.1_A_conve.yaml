@@ -12,8 +12,8 @@ ax_search:
     values: [1vsAll, KvsAll, negative_sampling]
   - name: train.optimizer
     type: choice
-    values: [Adam, Adagrad, Adadelta, AdamW, SparseAdam, Adamax, ASGD, LBFGS, NAdam,
-      RAdam, RMSprop, Rprop, SGD]
+    values: [Adam, Adagrad, Adadelta, AdamW, SparseAdam, Adamax, ASGD, LBFGS, RMSprop,
+      Rprop, SGD]
   - name: train.loss
     type: choice
     values: [bce, bce_mean, bce_self_adversarial, margin_ranking, ce, kl, soft_margin,
@@ -37,9 +37,10 @@ ax_search:
     type: choice
     values: [xavier_normal_, xavier_uniform_, normal_, uniform_]
   - {name: lookup_embedder.initialize_args.normal_.mean, type: fixed, value: 0.0}
-  - bounds: [-1.0, -1.0e-05]
-    name: lookup_embedder.initialize_args.uniform_.a
-    type: range
+  - {log_scale: true, name: lookup_embedder.initialize_args.normal_.std, type: fixed,
+    value: 0.006737}
+  - {name: lookup_embedder.initialize_args.uniform_.a, type: fixed, value: -0.5}
+  - {name: lookup_embedder.initialize_args.xavier_uniform_.gain, type: fixed, value: 1.0}
   - {name: lookup_embedder.initialize_args.xavier_normal_.gain, type: fixed, value: 1.0}
   - is_ordered: true
     name: lookup_embedder.regularize
@@ -72,7 +73,8 @@ import: [conve, reciprocal_relations_model]
 job.type: search
 negative_sampling.implementation: sp_po
 reciprocal_relations_model.base_model.type: conve
-search.num_workers: 1
+search.num_workers: 16
+search.on_error: continue
 search.type: ax
 train: {auto_correct: true, max_epochs: 500}
 valid:

@@ -11,7 +11,8 @@ for template_name in file_names:
         config = yaml.safe_load(f)
 
     # Change meta settings
-    config['search.num_workers'] = 4
+    config['search.num_workers'] = 16
+    config['search.on_error'] = 'continue'
     config['train']['max_epochs'] = 500
     config['valid']['early_stopping']['patience'] = 20
     config['valid']['early_stopping']['min_threshold.metric_value'] = 0.25
@@ -56,10 +57,14 @@ for template_name in file_names:
     if method_name == 'conve':
         del config['ax_search']['parameters'][25]
 
-    # Remove weight initialisation method subparameter choices (uniform dist alpha, and normal dist std)
-    # Note: doing this last so as to not screw up list indices
-    del config['ax_search']['parameters'][14]
-    del config['ax_search']['parameters'][15]
+    # Fix weight initialisation method subparameter values (uniform dist alpha, and normal dist std)
+    config['ax_search']['parameters'][14]['type'] = 'fixed'
+    config['ax_search']['parameters'][14]['value'] = 0.006737 # Logarithmic midpoint from LibKGE ICLR config bounds for this param
+    del config['ax_search']['parameters'][14]['bounds']
+
+    config['ax_search']['parameters'][15]['type'] = 'fixed'
+    config['ax_search']['parameters'][15]['value'] = -0.5 # Middle value from LibKGE ICLR configs
+    del config['ax_search']['parameters'][15]['bounds']
 
     # Write in dataset names and save 
     for dataset in ['UMLS-43', 'FB15k-237', 'WN18RR']:
