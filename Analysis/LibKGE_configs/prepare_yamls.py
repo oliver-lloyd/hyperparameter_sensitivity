@@ -11,18 +11,19 @@ for template_name in file_names:
         config = yaml.safe_load(f)
 
     # Change meta settings
-    config['search.num_workers'] = -1
+    config['search.num_workers'] = 4
     config['train']['max_epochs'] = 500
     config['valid']['early_stopping']['patience'] = 20
     config['valid']['early_stopping']['min_threshold.metric_value'] = 0.25
     
     # Remove reciprocal relations as a model option
     method_name = template_name.split('_temp')[0]
-    config['ax_search']['parameters'][0]['value'] = method_name
-    config['ax_search']['parameters'][0]['type'] = 'fixed'
-    del config['ax_search']['parameters'][0]['values']
-    del config['import']
-    del config['reciprocal_relations_model.base_model.type']
+    if method_name != 'conve': # ConvE depends on the reciprocal model. 
+        config['ax_search']['parameters'][0]['value'] = method_name
+        config['ax_search']['parameters'][0]['type'] = 'fixed'
+        config['import'] = [method_name]
+        del config['ax_search']['parameters'][0]['values']
+        del config['reciprocal_relations_model.base_model.type']
 
     # Allow choice of all training types
     config['ax_search']['parameters'][2]['type'] = 'choice'
@@ -46,8 +47,8 @@ for template_name in file_names:
 
     # Set dropout lower bounds to 0 
     # TODO: what is negative dropout? maybe ask libkge devs
-    config['ax_search']['parameters'][22]['bounds'] = [0, 0.5]
-    config['ax_search']['parameters'][23]['bounds'] = [0, 0.5]
+    config['ax_search']['parameters'][22]['bounds'] = [0.0, 0.5]
+    config['ax_search']['parameters'][23]['bounds'] = [0.0, 0.5]
 
     # Remove model-specific hyperparameters
     if method_name in ['rescal', 'conve']:
@@ -71,5 +72,5 @@ for template_name in file_names:
 
                 # Save config
                 config_name = f'{dataset_name}_{method_name}'
-                with open(f'Configs/{config_name}.yaml', 'w') as f:
-                    yaml.dump(config, f, default_flow_style=False)
+                with open(f'Configs/{dataset}/{config_name}.yaml', 'w') as f:
+                    yaml.dump(config, f, default_flow_style=None)
