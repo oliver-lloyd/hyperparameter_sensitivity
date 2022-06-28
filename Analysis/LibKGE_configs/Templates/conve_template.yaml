@@ -40,8 +40,8 @@ ax_search:
   parameters:
       # model
     - name: model
-      type: choice
-      values: [conve, reciprocal_relations_model]
+      type: fixed
+      value: reciprocal_relations_model
 
     # training hyperparameters
     - name: train.batch_size

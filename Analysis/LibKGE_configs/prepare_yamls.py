@@ -31,7 +31,7 @@ for template_name in file_names:
     del config['ax_search']['parameters'][2]['value']
 
     # Add more PyTorch optimizers
-    config['ax_search']['parameters'][3]['values'] += ['Adadelta', 'AdamW', 'SparseAdam', 'Adamax', 'ASGD', 'LBFGS', 'NAdam', 'RAdam', 'RMSprop', 'Rprop', 'SGD']
+    config['ax_search']['parameters'][3]['values'] += ['Adadelta', 'AdamW', 'SparseAdam', 'Adamax', 'ASGD', 'LBFGS', 'RMSprop', 'Rprop', 'SGD']
 
     # Add all loss funcs
     config['ax_search']['parameters'][4]['type'] = 'choice'
