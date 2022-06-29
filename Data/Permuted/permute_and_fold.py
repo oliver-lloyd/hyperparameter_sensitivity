@@ -6,7 +6,7 @@ from string import ascii_uppercase
 
 if __name__ == '__main__':
 
-    datasets = ['UMLS-43']#[x.split('.')[0] for x in os.listdir('../raw_edgelists')]
+    datasets = [x.split('.')[0] for x in os.listdir('../raw_edgelists')]
     knockout_proportion = 0.05
 
     for dataset in datasets:
@@ -16,7 +16,6 @@ if __name__ == '__main__':
 
         num_to_knockout = round(knockout_proportion * len(remaining_edgelist))
         knockouts = pd.DataFrame()
-
 
         while remaining_proportion > knockout_proportion:
             remaining_proportion = round(remaining_proportion - knockout_proportion, 2)
