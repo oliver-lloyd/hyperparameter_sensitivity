@@ -1,0 +1,2 @@
+graph_name,graph_section,components,num_nodes,num_edges,num_edge_types,mean_component_diameter,mean_component_distance,density,mean_component_connectivity,mean_degree,median_degree,max_degree,stdev_degree,skewness_degree,kurtosis_degree
+FB15k-237_0.9_A,full graph,7.0,14510.0,285054.0,237.0,2.2857142857142856,1.3506017989870036,5.713127290943044e-06,1.0,39.29069607167471,24.0,7971.0,117.67390896923543,34.130478326367296,1784.5152184701697

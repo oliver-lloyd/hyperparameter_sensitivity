@@ -1,0 +1,2 @@
+graph_name,graph_section,components,num_nodes,num_edges,num_edge_types,mean_component_diameter,mean_component_distance,density,mean_component_connectivity,mean_degree,median_degree,max_degree,stdev_degree,skewness_degree,kurtosis_degree
+WN18RR_0.85_A,full graph,112.0,39796.0,80733.0,11.0,1.4732142857142858,1.180923645943885,4.6343675501456705e-06,1.1607142857142858,4.0573424464770325,3.0,458.0,7.566419709496147,25.956205064299176,1087.832295612201
